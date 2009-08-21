@@ -1,0 +1,49 @@
+#!/bin/sh
+# elvis: scroogle 	-- Search the web anonymously with Scroogle over SSL
+# Author: Ali Gündüz <gndz.ali@gmail.com>
+. surfraw || exit 1
+
+w3_config_hook () {
+def   SURFRAW_scroogle_language	"$SURFRAW_lang"
+}
+
+w3_usage_hook () {
+    cat <<EOF
+Usage: $w3_argv0 [options] [search-string]
+Description:
+  Search the web anonymously with Scroogle over SSL
+Local options:
+  -language=ISOCODE | -l=ISOCODE  Two letter language code (resembles ISO country codes)
+				  Default: en
+				  Environment: SURFRAW_scroogle_language, SURFRAW_lang
+
+Examples:
+  $w3_argv0 -language=de Free Software Foundation
+EOF
+    w3_global_usage
+}
+
+w3_parse_option_hook () {
+    opt="$1"
+    optarg="$2"
+    case "$opt" in
+	-language=*)	setopt	SURFRAW_scroogle_language		$optarg	;;
+	-l=*)	setopt	SURFRAW_scroogle_language		$optarg	;;
+	*) return 1 ;;
+    esac
+    return 0
+}
+
+w3_config
+w3_parse_args "$@"
+
+if [ -z "$SURFRAW_scroogle_language" ]; then
+    SURFRAW_scroogle_language="en"
+fi
+
+if null "$w3_args"; then
+    w3_browse_url "https://ssl.scroogle.org/"
+else
+    escaped_args=`w3_url_of_arg $w3_args`
+    w3_browse_url "https://ssl.scroogle.org/cgi-bin/nbbwssl.cgi?Gw=${escaped_args}&l=${SURFRAW_scroogle_language}"
+fi
