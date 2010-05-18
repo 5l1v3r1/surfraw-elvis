@@ -2,5 +2,4 @@
 
 - Add:      anonymouse "http://anonymouse.org/cgi-bin/anon-www.cgi/${escaped_args}"
             duckduckgo
-            urbdic
             wiktionary(?)
