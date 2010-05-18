@@ -1,4 +1,3 @@
 - Remove:   scroogle (it's added to the latest surfraw release)
 
-- Add:      anonymouse "http://anonymouse.org/cgi-bin/anon-www.cgi/${escaped_args}"
-            wiktionary(?)
+- Add:      wiktionary(?)
